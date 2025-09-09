@@ -1,0 +1,35 @@
+
+
+.cursor{
+  z-index: 99999;
+  position: fixed;
+  background-color: #00ffcc;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  pointer-events: none;
+  box-shadow: 0 0 20px #02dbb0,
+              0 0 60px #00ffcc,
+              0 0 100px #02ad8b;
+  animation: colors 5s infinite;
+  transform: translate(-50%, -50%);
+  display: none;
+}
+@keyframes colors{
+    0%{
+        filter: hue-rotate(0deg);
+    }
+    100%{
+        filter: hue-rotate(360deg)
+    }
+}
+.cursor::before{
+    content: '';
+    position: absolute;
+    background-color: #00ffcc;
+    width: 50px;
+    height: 50px;
+    opacity: 0.2;
+    transform:  translate(-30%, -30%);
+    border-radius: 50%;
+}
