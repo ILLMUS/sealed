@@ -123,8 +123,8 @@
 
   <!-- Team Images -->
   <div class="team-avatars fade-up-group">
-    <img src="assets/img/lunga-contact.jpg" alt="Lunga Khumalo" class="team-avatar fade-up-group" loading="lazy">
-    <img src="assets/img/simiso-contact.jpg" alt="Simiso Maseko" class="team-avatar fade-up-group" loading="lazy">
+    <img src="https://res.cloudinary.com/dgtjug25f/image/upload/v1756838779/lunga-contact_kp9htb.jpg" alt="Lunga Khumalo" class="team-avatar fade-up-group" loading="lazy">
+    <img src="https://res.cloudinary.com/dgtjug25f/image/upload/v1756838514/simiso-contact_ohrgbg.png" alt="Simiso Maseko" class="team-avatar fade-up-group" loading="lazy">
   </div>
 
   <!-- Content and Form Grid -->
@@ -138,12 +138,14 @@
         <li><i class="fas fa-bolt"></i> Faster and reliable</li>
       </ul>
 
-<form id="contactForm" class="contact-form fade-up-group">
-  <input type="text" name="name" placeholder="Your Full Name" required>
-  <input type="email" name="email" placeholder="Your Email" required>
-  <textarea name="message" placeholder="Your Message..." rows="5" required></textarea>
-  <button type="submit" class="btn-cta">Send Message</button>
+<form id="contactForm" class="contact-form">
+  <input type="text" name="name" placeholder="Your Name" required />
+  <input type="email" name="email" placeholder="Your Email" required />
+  <textarea name="message" placeholder="Your Message" required></textarea>
+  <button type="submit" class="btn-submit">Submit</button>
 </form>
+
+<div id="response"></div>
 
 
     </div>
@@ -539,6 +541,41 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 </script>
 
+<script>
+const form = document.getElementById("contactForm");
+const responseBox = document.getElementById("response");
+
+form.addEventListener("submit", async (e) => {
+  e.preventDefault();
+
+  const formData = {
+    name: form.name.value,
+    email: form.email.value,
+    message: form.message.value
+  };
+
+  try {
+    const res = await fetch("/.netlify/functions/contact", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(formData)
+    });
+
+    const result = await res.json();
+
+    responseBox.style.display = "block";
+    responseBox.className = "success";
+    responseBox.innerText = result.message;
+
+    form.reset();
+  } catch (err) {
+    console.error(err);
+    responseBox.style.display = "block";
+    responseBox.className = "error";
+    responseBox.innerText = "❌ Oops! Something went wrong.";
+  }
+});
+</script>
   <script src="fade-section.js"></script>
   <script src="animation-fade-up.js"></script>
   <script src="animation.js"></script>

@@ -1,0 +1,180 @@
+
+        .body {
+            margin-top: -2rem;
+            font-family: Arial, sans-serif;
+              background: radial-gradient(1200px 600px at 50% 20%, #111a22, var(--bg));
+              margin-bottom: 2.3%;
+        }
+        .hero {
+            position: relative;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            background:
+            radial-gradient(40rem 20rem at 50% 30%, rgba(104,240,195,.15), transparent 60%),
+            radial-gradient(30rem 18rem at 10% 80%, rgba(88,120,255,.12), transparent 60%),
+            radial-gradient(36rem 22rem at 90% 70%, rgba(255,120,180,.10), transparent 60%);
+            filter: blur(var(--blur));            
+            color: #00ffcc;
+            overflow: hidden;
+            text-align: center;
+        }
+        .hero h1 {
+            font-size: 3em;
+            font-weight: 700;
+            letter-spacing: 1.5px;
+            margin-bottom: 0.5em;
+            opacity: 0;
+            animation: fadeSlide 9s infinite;
+            color: #ffffff;
+            text-shadow: 0 0 10px #01ffc0b2;
+        }
+        .power{
+            font-size: 5rem;
+            font-weight: 600;
+            color: #00ffcc;
+        }
+        .hero p {
+            font-size: 1rem;
+            font-weight: lighter;
+            letter-spacing: 1px;
+            width: 50%;
+            margin-bottom: 2em;
+            color: gray;
+        }
+        .button-container {
+            display: flex;
+            flex-direction: column;
+            gap: 1em;
+        }
+        .hero button {
+            padding: 0.8em 1.5em;
+            font-size: 1.2em;
+            border: 2px solid white;
+            background: transparent;
+            color: white;
+            cursor: pointer;
+            border-radius: 30px;
+            transition: background 0.3s, transform 0.3s;
+        }
+        .hero button:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: scale(1.05);
+        }
+        .line {
+            position: absolute;
+            background: #fff;
+            pointer-events: none;
+            border-radius: 999px;
+        }
+        @keyframes fadeSlide {
+            0% {
+                opacity: 0;
+                transform: translateX(-20px);
+                content: "Interactive Website";
+            }
+            10%, 30% {
+                opacity: 1;
+                transform: translateX(0);
+            }
+            33% {
+                opacity: 0;
+                transform: translateX(20px);
+            }
+            34% {
+                content: "Accurate System";
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            44%, 63% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+            66% {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            67% {
+                content: "AI Virtual Assistants";
+                opacity: 0;
+                transform: translate(20px);
+            }
+            77%, 96% {
+                opacity: 1;
+                transform: translate(0);
+            }
+            100% {
+                opacity: 0;
+                transform: translate(-20px);
+            }
+        }
+        .hero h1::after {
+            content: "Interactive Websites";
+            animation: changeText 9s infinite;
+            
+        }
+        @keyframes changeText {
+            0%, 33% {
+                content: "Interactive Websites";
+            }
+            34%, 66% {
+                content: "Accurate System";
+            }
+            67%, 100% {
+                content: "AI Virtual Assistants";
+            }
+        }
+/* Add this CSS */
+.ripple {
+  position: absolute;
+  border-radius: 50%;
+  pointer-events: none;
+  background: radial-gradient(circle, rgba(255,255,255,0.5) 0%, transparent 70%);
+  transform: scale(0);
+  animation: rippleAnim 1s ease-out forwards;
+}
+
+@keyframes rippleAnim {
+  to {
+    transform: scale(4);
+    opacity: 0;
+  }
+}
+
+
+/* Smoky letter effect */
+h1 #hero-title {
+  display: inline-block;
+  opacity: 0;
+  transform: translate(10px);
+  filter: blur(4px);
+  transition: all 0.6s ease;
+}
+
+h1 #hero-title.show {
+  opacity: 1;
+  transform: translate(0);
+  filter: blur(0);
+}
+
+h1 #hero-title.hide {
+  opacity: 0;
+  transform: translate(-10px);
+  filter: blur(6px);
+}
+
+
+@media (max-width: 768px){
+            .hero {
+            padding-top: rem;
+            height: 160vh;
+ 
+        }
+                .hero p {
+            width: 100%;
+            padding: 1.5rem;
+
+        }
+}
