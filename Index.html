@@ -2393,6 +2393,44 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 });
 </script>
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  const form = document.getElementById('leadMagnetForm');
+  const status = form.nextElementSibling; // the <p class="disclaimer">
+
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+
+    const email = form.querySelector("input[type='email']").value;
+    status.innerText = "Sending…";
+    status.className = "";
+
+    try {
+      const res = await fetch("/.netlify/functions/leadMagnet", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email })
+      });
+
+      const result = await res.json();
+
+      if (!res.ok) {
+        status.className = "error";
+        status.innerText = result.message || `Server error (${res.status})`;
+        return;
+      }
+
+      status.className = "success";
+      status.innerText = result.message;
+      form.reset();
+    } catch (err) {
+      console.error(err);
+      status.className = "error";
+      status.innerText = "❌ Network error — check console";
+    }
+  });
+});
+</script>
 
   <script src="hero.js"></script>
   <script src="nav.js"></script>
