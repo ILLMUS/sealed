@@ -73,7 +73,7 @@
             0% {
                 opacity: 0;
                 transform: translateX(-20px);
-                content: "Interactive Website";
+                content: "Interactive Websites";
             }
             10%, 30% {
                 opacity: 1;
@@ -84,7 +84,7 @@
                 transform: translateX(20px);
             }
             34% {
-                content: "Accurate System";
+                content: "Accurate Systems";
                 opacity: 0;
                 transform: translateY(20px);
             }
@@ -120,7 +120,7 @@
                 content: "Interactive Websites";
             }
             34%, 66% {
-                content: "Accurate System";
+                content: "Accurate Systems";
             }
             67%, 100% {
                 content: "AI Virtual Assistants";

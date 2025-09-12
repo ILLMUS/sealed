@@ -466,6 +466,34 @@ canvas#background {
     border-radius: 999px;
     cursor: pointer;
   }
+
+  .share-buttons {
+  position: absolute;
+  bottom: 15px;
+  right: 15px;
+  display: flex;
+  gap: 10px;
+  z-index: 5;
+}
+
+.share-buttons a {
+  width: 35px;
+  height: 35px;
+  border-radius: 50%;
+  background: #00a388;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+  font-size: 16px;
+  transition: 0.3s ease;
+}
+
+.share-buttons a:hover {
+  background: #007a66;
+}
+
 @media (width < 768px){
     .video-info { 
       text-align: center;
@@ -711,6 +739,23 @@ canvas#background {
   box-shadow: 0 0 30px var(--neon-green);
   cursor: pointer;
 }
+.cta-btn {
+  display: inline-block;
+  margin-top: 8px;
+  padding: 6px 12px;
+  background: #00ffcc;
+  color: #111;
+  font-size: 14px;
+  font-weight: bold;
+  border-radius: 6px;
+  text-decoration: none;
+  transition: 0.3s;
+}
+.cta-btn:hover {
+  background: #00ccaa;
+  color: #fff;
+}
+
 
 @keyframes spinOrbit {
   from { transform: rotate(0deg); }
