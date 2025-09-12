@@ -1470,11 +1470,6 @@ header .meta { font-size: 0.9rem; color: #555; }
 <div class="affiliate-form-container fade-up-group">
   <h3>Become an Affiliate</h3>
   <form class="affiliate-form fade-up-group" id="affiliate-form">
-    <!-- In contact form -->
-<input type="hidden" name="formType" value="ContactForm">
-
-<!-- In affiliate form -->
-<input type="hidden" name="formType" value="AffiliateForm">
     <input type="text"   name="name"     placeholder="Your Name"   required>
     <input type="email"  name="email"    placeholder="Your Email"  required>
     <input type="tel"    name="phone"    placeholder="Phone Number" required>
@@ -1484,6 +1479,7 @@ header .meta { font-size: 0.9rem; color: #555; }
   </form>
   <div id="form-status" role="status" aria-live="polite" style="margin-top:.5rem;"></div>
 </div>
+
 
 
   </div>
@@ -2313,6 +2309,43 @@ handleFormSubmit(document.getElementById("contactForm"), "response");
 handleFormSubmit(document.getElementById("affiliate-form"), "form-status");
 </script>
 
+<script>
+const affiliateForm = document.getElementById("affiliate-form");
+const affiliateStatus = document.getElementById("form-status");
+
+affiliateForm.addEventListener("submit", async (e) => {
+  e.preventDefault();
+
+  const formData = {
+    name: affiliateForm.name.value,
+    email: affiliateForm.email.value,
+    phone: affiliateForm.phone.value,
+    location: affiliateForm.location.value,
+    notes: affiliateForm.notes.value,
+  };
+
+  try {
+    const res = await fetch("/.netlify/functions/affiliate", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(formData),
+    });
+
+    const result = await res.json();
+
+    affiliateStatus.style.display = "block";
+    affiliateStatus.className = "success";
+    affiliateStatus.innerText = result.message;
+
+    affiliateForm.reset();
+  } catch (err) {
+    console.error(err);
+    affiliateStatus.style.display = "block";
+    affiliateStatus.className = "error";
+    affiliateStatus.innerText = "❌ Oops! Something went wrong.";
+  }
+});
+</script>
 
 
   <script src="hero.js"></script>
