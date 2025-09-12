@@ -1416,6 +1416,8 @@ header .meta { font-size: 0.9rem; color: #555; }
       </ul>
 
 <form id="contactForm" class="contact-form">
+  <!-- In contact form -->
+<input type="hidden" name="formType" value="ContactForm">
   <input type="text" name="name" placeholder="Your Name" required />
   <input type="email" name="email" placeholder="Your Email" required />
   <textarea name="message" placeholder="Your Message" required></textarea>
@@ -1468,6 +1470,11 @@ header .meta { font-size: 0.9rem; color: #555; }
 <div class="affiliate-form-container fade-up-group">
   <h3>Become an Affiliate</h3>
   <form class="affiliate-form fade-up-group" id="affiliate-form">
+    <!-- In contact form -->
+<input type="hidden" name="formType" value="ContactForm">
+
+<!-- In affiliate form -->
+<input type="hidden" name="formType" value="AffiliateForm">
     <input type="text"   name="name"     placeholder="Your Name"   required>
     <input type="email"  name="email"    placeholder="Your Email"  required>
     <input type="tel"    name="phone"    placeholder="Phone Number" required>
@@ -2230,7 +2237,7 @@ window.addEventListener('resize', () => {
 });
 </script>
 -->
-<script>
+<!--<script>
 const form = document.getElementById("contactForm");
 const responseBox = document.getElementById("response");
 
@@ -2264,7 +2271,48 @@ form.addEventListener("submit", async (e) => {
     responseBox.innerText = "❌ Oops! Something went wrong.";
   }
 });
+</script>-->
+<script>
+async function handleFormSubmit(form, responseBoxId) {
+  const responseBox = document.getElementById(responseBoxId);
+
+  form.addEventListener("submit", async (e) => {
+    e.preventDefault();
+
+    // Grab all fields automatically
+    const formData = {};
+    new FormData(form).forEach((value, key) => {
+      formData[key] = value;
+    });
+
+    try {
+      const res = await fetch("/.netlify/functions/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(formData),
+      });
+
+      const result = await res.json();
+
+      responseBox.style.display = "block";
+      responseBox.className = "success";
+      responseBox.innerText = result.message;
+
+      form.reset();
+    } catch (err) {
+      console.error(err);
+      responseBox.style.display = "block";
+      responseBox.className = "error";
+      responseBox.innerText = "❌ Oops! Something went wrong.";
+    }
+  });
+}
+
+// Attach both forms to same backend
+handleFormSubmit(document.getElementById("contactForm"), "response");
+handleFormSubmit(document.getElementById("affiliate-form"), "form-status");
 </script>
+
 
 
   <script src="hero.js"></script>
