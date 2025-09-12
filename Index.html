@@ -2310,40 +2310,48 @@ handleFormSubmit(document.getElementById("affiliate-form"), "form-status");
 </script>
 
 <script>
-const affiliateForm = document.getElementById("affiliate-form");
-const affiliateStatus = document.getElementById("form-status");
+document.addEventListener('DOMContentLoaded', () => {
+  const form = document.getElementById('affiliate-form');
+  const status = document.getElementById('form-status');
+  if (!form) { console.error('affiliate-form not found'); return; }
 
-affiliateForm.addEventListener("submit", async (e) => {
-  e.preventDefault();
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    status.style.display = 'block';
+    status.className = '';
+    status.innerText = 'Sending…';
 
-  const formData = {
-    name: affiliateForm.name.value,
-    email: affiliateForm.email.value,
-    phone: affiliateForm.phone.value,
-    location: affiliateForm.location.value,
-    notes: affiliateForm.notes.value,
-  };
+    const payload = Object.fromEntries(new FormData(form).entries());
+    console.log('📤 Affiliate payload:', payload);
 
-  try {
-    const res = await fetch("/.netlify/functions/affiliate", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(formData),
-    });
+    try {
+      const res = await fetch('/.netlify/functions/affiliate', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      });
 
-    const result = await res.json();
+      const text = await res.text();
+      let result;
+      try { result = JSON.parse(text); } catch (err) { result = { message: text || `HTTP ${res.status}` }; }
 
-    affiliateStatus.style.display = "block";
-    affiliateStatus.className = "success";
-    affiliateStatus.innerText = result.message;
+      if (!res.ok) {
+        console.error('Server error', res.status, result);
+        status.className = 'error';
+        status.innerText = result.message || `Server error (${res.status})`;
+        return;
+      }
 
-    affiliateForm.reset();
-  } catch (err) {
-    console.error(err);
-    affiliateStatus.style.display = "block";
-    affiliateStatus.className = "error";
-    affiliateStatus.innerText = "❌ Oops! Something went wrong.";
-  }
+      console.log('✅ Server success response:', result);
+      status.className = 'success';
+      status.innerText = result.message || 'Thanks — we got your application.';
+      form.reset();
+    } catch (err) {
+      console.error('Network / fetch error:', err);
+      status.className = 'error';
+      status.innerText = '❌ Network error — check console.';
+    }
+  });
 });
 </script>
 
