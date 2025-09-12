@@ -1,33 +1,39 @@
+// netlify/functions/affiliate.js
 export async function handler(event, context) {
-  if (event.httpMethod !== "POST") {
-    return { statusCode: 405, body: "Method Not Allowed" };
+  if (event.httpMethod !== 'POST') {
+    return { statusCode: 405, body: 'Method Not Allowed' };
   }
 
+  console.log('affiliate function invoked - raw body:', event.body);
+
   try {
-    const data = JSON.parse(event.body);
+    const data = JSON.parse(event.body || '{}');
     const { name, email, phone, location, notes } = data;
 
     if (!name || !email || !phone || !location) {
+      console.warn('Missing required fields', { name, email, phone, location });
       return {
         statusCode: 400,
-        body: JSON.stringify({ message: "❌ Missing required fields" }),
-        headers: { "Content-Type": "application/json" }
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ message: '❌ Missing required fields: name, email, phone, location' })
       };
     }
 
-    console.log("✅ New affiliate application:", { name, email, phone, location, notes });
+    console.log('✅ New affiliate application:', { name, email, phone, location, notes });
+
+    // TODO: send email / save to DB here
 
     return {
       statusCode: 200,
-      body: JSON.stringify({ message: "✅ Thank you! Your affiliate request was received." }),
-      headers: { "Content-Type": "application/json" }
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ message: '✅ Thanks! Your affiliate application was received.' })
     };
   } catch (err) {
-    console.error("Function error:", err);
+    console.error('Function error:', err);
     return {
       statusCode: 500,
-      body: JSON.stringify({ message: "❌ Something went wrong." }),
-      headers: { "Content-Type": "application/json" }
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ message: '❌ Something went wrong (server).' })
     };
   }
 }
