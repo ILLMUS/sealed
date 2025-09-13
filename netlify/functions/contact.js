@@ -23,7 +23,7 @@ export async function handler(event, context) {
     // --- Airtable Integration ---
     const AIRTABLE_BASE_ID = process.env.AIRTABLE_BASE_ID; // set in Netlify env
     const AIRTABLE_API_KEY = process.env.AIRTABLE_API_KEY; // set in Netlify env
-    const AIRTABLE_TABLE = "RST-Sealed"; // change if your table name is different
+    const AIRTABLE_TABLE = "Leads"; // change if your table name is different
 
     const airtableResponse = await fetch(
       `https://api.airtable.com/v0/${AIRTABLE_BASE_ID}/${AIRTABLE_TABLE}`,
@@ -73,5 +73,23 @@ export async function handler(event, context) {
     };
   }
 }
+const res = await fetch(`https://api.airtable.com/v0/${baseId}/Leads`, {
+  method: "POST",
+  headers: {
+    Authorization: `Bearer ${apiKey}`,
+    "Content-Type": "application/json"
+  },
+  body: JSON.stringify({
+    fields: {
+      Name: name,
+      Email: email,
+      Message: message,
+      Source: "Contact Form"
+    }
+  })
+});
 
-
+const data = await res.json();
+if (data.error) {
+  return { statusCode: 500, body: JSON.stringify(data.error) };
+}
