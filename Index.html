@@ -2269,40 +2269,89 @@ form.addEventListener("submit", async (e) => {
 });
 </script>-->
 <script>
-const form = document.getElementById("contactForm");
-const responseBox = document.getElementById("response");
+async function handleFormSubmit(form, responseBoxId) {
+  const responseBox = document.getElementById(responseBoxId);
 
-form.addEventListener("submit", async (e) => {
-  e.preventDefault();
+  form.addEventListener("submit", async (e) => {
+    e.preventDefault();
 
-  const formData = {
-    name: form.name.value,
-    email: form.email.value,
-    message: form.message.value,
-  };
-
-  try {
-    const res = await fetch("/.netlify/functions/contact", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(formData),
+    // Grab all fields automatically
+    const formData = {};
+    new FormData(form).forEach((value, key) => {
+      formData[key] = value;
     });
 
-    const result = await res.json();
-    console.log("Result from function:", result);
+    try {
+      const res = await fetch("/.netlify/functions/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(formData),
+      });
 
-    responseBox.style.display = "block";
-    responseBox.className = res.ok ? "success" : "error";
-    responseBox.innerText = result.message;
+      const result = await res.json();
 
-    if (res.ok) form.reset();
+      responseBox.style.display = "block";
+      responseBox.className = "success";
+      responseBox.innerText = result.message;
 
-  } catch (err) {
-    console.error("Frontend error:", err);
-    responseBox.style.display = "block";
-    responseBox.className = "error";
-    responseBox.innerText = "❌ Oops! Something went wrong.";
-  }
+      form.reset();
+    } catch (err) {
+      console.error(err);
+      responseBox.style.display = "block";
+      responseBox.className = "error";
+      responseBox.innerText = "❌ Oops! Something went wrong.";
+    }
+  });
+}
+
+// Attach both forms to same backend
+handleFormSubmit(document.getElementById("contactForm"), "response");
+handleFormSubmit(document.getElementById("affiliate-form"), "form-status");
+</script>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  const form = document.getElementById('affiliate-form');
+  const status = document.getElementById('form-status');
+  if (!form) { console.error('affiliate-form not found'); return; }
+
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    status.style.display = 'block';
+    status.className = '';
+    status.innerText = 'Sending…';
+
+    const payload = Object.fromEntries(new FormData(form).entries());
+    console.log('📤 Affiliate payload:', payload);
+
+    try {
+      const res = await fetch('/.netlify/functions/affiliate', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      });
+
+      const text = await res.text();
+      let result;
+      try { result = JSON.parse(text); } catch (err) { result = { message: text || `HTTP ${res.status}` }; }
+
+      if (!res.ok) {
+        console.error('Server error', res.status, result);
+        status.className = 'error';
+        status.innerText = result.message || `Server error (${res.status})`;
+        return;
+      }
+
+      console.log('✅ Server success response:', result);
+      status.className = 'success';
+      status.innerText = result.message || 'Thanks — we got your application.';
+      form.reset();
+    } catch (err) {
+      console.error('Network / fetch error:', err);
+      status.className = 'error';
+      status.innerText = '❌ Network error — check console.';
+    }
+  });
 });
 </script>
 
