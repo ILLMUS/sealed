@@ -2278,14 +2278,14 @@ form.addEventListener("submit", async (e) => {
   const formData = {
     name: form.name.value,
     email: form.email.value,
-    message: form.message.value
+    message: form.message.value,
   };
 
   try {
     const res = await fetch("/.netlify/functions/contact", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(formData)
+      body: JSON.stringify(formData),
     });
 
     const result = await res.json();
@@ -2298,7 +2298,7 @@ form.addEventListener("submit", async (e) => {
     if (res.ok) form.reset();
 
   } catch (err) {
-    console.error(err);
+    console.error("Frontend error:", err);
     responseBox.style.display = "block";
     responseBox.className = "error";
     responseBox.innerText = "❌ Oops! Something went wrong.";
