@@ -74,25 +74,3 @@ export async function handler(event, context) {
   }
 }
 
-
-const res = await fetch(`https://api.airtable.com/v0/${baseId}/Leads`, {
-  method: "POST",
-  headers: {
-    Authorization: `Bearer ${apiKey}`,
-    "Content-Type": "application/json"
-  },
-  body: JSON.stringify({
-    fields: {
-      Name: name,
-      Email: email,
-      Message: message,
-      Source: "Contact Form"
-    }
-  })
-});
-
-const data = await res.json();
-if (data.error) {
-  return { statusCode: 500, body: JSON.stringify(data.error) };
-}
-
