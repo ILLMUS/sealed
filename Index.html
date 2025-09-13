@@ -2269,7 +2269,7 @@ form.addEventListener("submit", async (e) => {
 });
 </script>-->
 <script>
-  const form = document.getElementById("contactForm");
+const form = document.getElementById("contactForm");
 const responseBox = document.getElementById("response");
 
 form.addEventListener("submit", async (e) => {
@@ -2289,12 +2289,14 @@ form.addEventListener("submit", async (e) => {
     });
 
     const result = await res.json();
+    console.log("Result from function:", result);
 
     responseBox.style.display = "block";
-    responseBox.className = "success";
-    responseBox.innerText = result.message; // ← if undefined, check what result contains
+    responseBox.className = res.ok ? "success" : "error";
+    responseBox.innerText = result.message;
 
-    form.reset();
+    if (res.ok) form.reset();
+
   } catch (err) {
     console.error(err);
     responseBox.style.display = "block";
@@ -2302,8 +2304,8 @@ form.addEventListener("submit", async (e) => {
     responseBox.innerText = "❌ Oops! Something went wrong.";
   }
 });
-
 </script>
+
 <script>
 document.addEventListener('DOMContentLoaded', () => {
   const form = document.querySelector(".subscribe-form");
