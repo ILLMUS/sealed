@@ -1,95 +1,34 @@
-const fetch = require("node-fetch"); // needed for Airtable POST
-
 export async function handler(event, context) {
   if (event.httpMethod !== "POST") {
     return { statusCode: 405, body: "Method Not Allowed" };
   }
 
   try {
-    const data = JSON.parse(event.body);
-    const { name, email, message } = data;
+    const { name, email, message, formType } = JSON.parse(event.body);
 
-    // Check required fields
     if (!name || !email || !message) {
       return {
         statusCode: 400,
-        body: JSON.stringify({ message: "❌ Missing required fields" }),
         headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ message: "❌ Name, email, and message are required." })
       };
     }
 
-    console.log("✅ New message received:", { name, email, message });
+    console.log("✅ New contact message:", { name, email, message, formType });
 
-    // --- Airtable Integration ---
-    const AIRTABLE_BASE_ID = process.env.AIRTABLE_BASE_ID; // set in Netlify env
-    const AIRTABLE_API_KEY = process.env.AIRTABLE_API_KEY; // set in Netlify env
-    const AIRTABLE_TABLE = "Leads"; // change if your table name is different
+    // TODO: forward this to Airtable / email / DB later
 
-    const airtableResponse = await fetch(
-      `https://api.airtable.com/v0/${AIRTABLE_BASE_ID}/${AIRTABLE_TABLE}`,
-      {
-        method: "POST",
-        headers: {
-          Authorization: `Bearer ${AIRTABLE_API_KEY}`,
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          fields: {
-            Name: name,
-            Email: email,
-            Message: message,
-            FormType: "Contact",
-            Date: new Date().toISOString(),
-          },
-        }),
-      }
-    );
-
-    const airtableData = await airtableResponse.json();
-
-    if (airtableData.error) {
-      console.error("Airtable Error:", airtableData.error);
-      return {
-        statusCode: 500,
-        body: JSON.stringify({ message: "❌ Airtable error." }),
-        headers: { "Content-Type": "application/json" },
-      };
-    }
-
-    // Success response
     return {
       statusCode: 200,
-      body: JSON.stringify({
-        message: "✅ Thank you! Your message was received and saved.",
-      }),
       headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ message: "✅ Thank you! Your message has been sent." })
     };
   } catch (err) {
     console.error("Function error:", err);
     return {
       statusCode: 500,
-      body: JSON.stringify({ message: "❌ Something went wrong." }),
       headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ message: "❌ Something went wrong." })
     };
   }
-}
-const res = await fetch(`https://api.airtable.com/v0/${baseId}/Leads`, {
-  method: "POST",
-  headers: {
-    Authorization: `Bearer ${apiKey}`,
-    "Content-Type": "application/json"
-  },
-  body: JSON.stringify({
-    fields: {
-      Name: name,
-      Email: email,
-      Message: message,
-      Source: "Contact Form"
-    }
-  })
-});
-
-const data = await res.json();
-if (data.error) {
-  return { statusCode: 500, body: JSON.stringify(data.error) };
 }
