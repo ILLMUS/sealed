@@ -2268,43 +2268,45 @@ form.addEventListener("submit", async (e) => {
 </script>-->
 
 <script>
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener("DOMContentLoaded", () => {
   const form = document.getElementById("contactForm");
-  const status = document.getElementById("response");
+  const responseBox = document.getElementById("response");
 
-  form.addEventListener('submit', async (e) => {
+  form.addEventListener("submit", async (e) => {
     e.preventDefault();
 
-    const name = form.querySelector("input[name='name']").value;
-    const email = form.querySelector("input[name='email']").value;
-    const message = form.querySelector("textarea[name='message']").value;
-    const formType = form.querySelector("input[name='formType']").value;
+    const formData = {
+      name: form.name.value,
+      email: form.email.value,
+      message: form.message.value,
+      formType: form.formType.value
+    };
 
-    status.innerText = "Sending…";
-    status.className = "";
+    responseBox.style.display = "block";
+    responseBox.className = "";
+    responseBox.innerText = "Sending…";
 
     try {
       const res = await fetch("/.netlify/functions/contact", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ name, email, message, formType })
+        body: JSON.stringify(formData)
       });
 
       const result = await res.json();
 
-      if (!res.ok) {
-        status.className = "error";
-        status.innerText = result.message || `Server error (${res.status})`;
-        return;
+      if (res.ok) {
+        responseBox.className = "success";
+        responseBox.innerText = result.message;
+        form.reset();
+      } else {
+        responseBox.className = "error";
+        responseBox.innerText = result.message || "❌ Something went wrong.";
       }
-
-      status.className = "success";
-      status.innerText = result.message;
-      form.reset();
     } catch (err) {
       console.error(err);
-      status.className = "error";
-      status.innerText = "❌ Network error — check console";
+      responseBox.className = "error";
+      responseBox.innerText = "❌ Network error — check console";
     }
   });
 });
