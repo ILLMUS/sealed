@@ -56,7 +56,7 @@ export async function handler(event, context) {
     return {
       statusCode: 200,
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ message: " Thank you! Your message has been sent." }),
+      body: JSON.stringify({ message: " Thank you! Your message has been sent. Read your email for confirmation." }),
     };
   } catch (err) {
     console.error("Function error:", err);
