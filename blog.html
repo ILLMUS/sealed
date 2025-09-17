@@ -1,8 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- Charset & Viewport -->
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+
+  <!-- SEO Core -->
 <title>RST Sealed Blog - Zero to Digital Hero</title>
   <meta name="description" content="Future-ready solutions in AI Automation, Custom Website Development, Copywriting, SEO & more. RST Sealed engineers digital systems that evolve with purpose.">
   <meta name="keywords" content="Eswatini's Best,AI Chatbot Development, AI Automation, 
@@ -550,7 +555,6 @@ header .meta { font-size: 0.9rem; color: #555; }
       </ul>
     </nav>
   </header>
-
 <div class="container">
 
 <!-- ===== HEADER ===== -->
@@ -608,7 +612,7 @@ header .meta { font-size: 0.9rem; color: #555; }
 
   <!-- Card 3 --
 <div class="card neon-badge" data-modal="modal3">
-  <div class="badge">🔥 Hot</div>
+  <div class="badge"> Hot</div>
   <div class="card-image">
     <img src="https://images.unsplash.com/photo-1519389950473-47ba0277781c?q=80&w=1600&auto=format&fit=crop" alt="Sales funnel illustration">
   </div>
@@ -616,9 +620,9 @@ header .meta { font-size: 0.9rem; color: #555; }
     <h3 class="gradient-heading">2025 Playbook: Turning Visitors into Customers</h3>
     <p>Most small businesses get traffic but struggle to convert. Learn the secrets of funnels, CTAs, and conversions that actually work in 2025.</p>
     <ul class="card-stats">
-      <li>📈 Why traffic ≠ sales</li>
-      <li>🎯 Funnels made simple</li>
-      <li>🚀 CTAs that drive action</li>
+      <li> Why traffic ≠ sales</li>
+      <li> Funnels made simple</li>
+      <li> CTAs that drive action</li>
     </ul>
     <button class="read-more-btn glow-btn" data-modal="modal3">Read Guide →</button>
   </div>
@@ -1314,6 +1318,7 @@ header .meta { font-size: 0.9rem; color: #555; }
       });
     })();
   </script>
+  <!--
 <script>
   const buttons = document.querySelectorAll('.read-more-btn');
 const modals = document.querySelectorAll('.modal');
@@ -1413,7 +1418,7 @@ const blogText = document.querySelector('.blog-content').innerText.split(/\s+/).
 const readTimeMinutes = Math.ceil(blogText / wordsPerMinute);
 document.getElementById('read-time').textContent = readTimeMinutes + ' min';
 </script>
-
+-->
 <canvas id="background"></canvas>
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.0/dist/gsap.min.js"></script>
 <script>
@@ -1458,6 +1463,7 @@ window.addEventListener('resize', () => {
 });
 </script>
 <script src="blog.js"></script>
+<script src="blogdash.js"></script>
   <script src="hero.js"></script>
   <script src="nav.js"></script>
   <script src="fade-section.js"></script>
