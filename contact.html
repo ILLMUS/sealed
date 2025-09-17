@@ -142,6 +142,8 @@
       </ul>
 
 <form id="contactForm" class="contact-form">
+  <!-- In contact form -->
+<input type="hidden" name="formType" value="ContactForm">
   <input type="text" name="name" placeholder="Your Name" required />
   <input type="email" name="email" placeholder="Your Email" required />
   <textarea name="message" placeholder="Your Message" required></textarea>
@@ -149,8 +151,6 @@
 </form>
 
 <div id="response"></div>
-
-
     </div>
 
     <!-- Right: Calendly Embed -->
@@ -394,189 +394,54 @@ document.getElementById("closeExitModal").addEventListener("click", function() {
   })(document, 'script');
 </script>
 
-<script>
-document.addEventListener('DOMContentLoaded', () => {
-  const videos = document.querySelectorAll('.hero-videos video');
-  const modal = document.getElementById('video-modal-2');
-  const modalVideo = document.getElementById('modal-video-2');
-  const titleEl = document.getElementById('video-title-2');
-  const descEl = document.getElementById('video-description-2');
-  const closeBtn = document.querySelector('.close-btn-3');
 
-  videos.forEach(video => {
-    video.style.cursor = 'pointer'; 
-
-    video.addEventListener('click', () => {
-      const source = video.querySelector('source');
-      if (!source) {
-        console.warn('No source found inside clicked video');
-        return;
-      }
-
-      modalVideo.src = source.src;
-      titleEl.textContent = video.dataset.title || '';
-      descEl.textContent = video.dataset.description || '';
-      
-      modal.style.display = 'block';
-
-      modalVideo.load();
-      modalVideo.play().catch(err => {
-        console.log('Autoplay prevented:', err);
-      });
-    });
-  });
-
-  if (closeBtn) {
-    closeBtn.addEventListener('click', () => {
-      modal.style.display = 'none';
-      modalVideo.pause();
-      modalVideo.removeAttribute('src');
-      modalVideo.load();
-    });
-  }
-
-  window.addEventListener('click', (event) => {
-    if (event.target === modal) {
-      modal.style.display = 'none';
-      modalVideo.pause();
-      modalVideo.removeAttribute('src');
-      modalVideo.load();
-    }
-  });
-
-  window.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape' && modal.style.display === 'block') {
-      modal.style.display = 'none';
-      modalVideo.pause();
-      modalVideo.removeAttribute('src');
-      modalVideo.load();
-    }
-  });
-});
-</script>
-<script>
-document.addEventListener('DOMContentLoaded', () => {
-  const openBtn = document.getElementById('open-terms');
-  const modal = document.getElementById('terms-modal');
-  const closeBtn = document.getElementById('close-terms');
-
-  openBtn.addEventListener('click', (e) => {
-    e.preventDefault();
-    modal.style.display = 'flex';
-    modal.setAttribute('aria-hidden', 'false');
-    modal.focus();
-  });
-
-  closeBtn.addEventListener('click', () => {
-    modal.style.display = 'none';
-    modal.setAttribute('aria-hidden', 'true');
-  });
-
-  window.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape' && modal.style.display === 'flex') {
-      modal.style.display = 'none';
-      modal.setAttribute('aria-hidden', 'true');
-    }
-  });
-
-  modal.addEventListener('click', (e) => {
-    if (e.target === modal) {
-      modal.style.display = 'none';
-      modal.setAttribute('aria-hidden', 'true');
-    }
-  });
-});
-</script>
 <script>
   document.getElementById('logo-img').addEventListener('click', () => {
     location.reload();
   });
 </script>
 
+
 <script>
-  document.getElementById("affiliate-form").addEventListener("submit", async function (e) {
+document.addEventListener("DOMContentLoaded", () => {
+  const form = document.getElementById("contactForm");
+  const responseBox = document.getElementById("response");
+
+  form.addEventListener("submit", async (e) => {
     e.preventDefault();
-    
+
     const formData = {
-      name: this.name.value,
-      email: this.email.value,
-      phone: this.phone.value,
-      location: this.location.value,
-      notes: this.notes.value
+      name: form.name.value,
+      email: form.email.value,
+      message: form.message.value,
+      formType: form.formType.value,
     };
 
-    document.getElementById("form-status").innerText = "Submitting...";
-
     try {
-      const res = await fetch("/.netlify/functions/affiliateForm", {
+      const res = await fetch("/.netlify/functions/contact", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(formData)
+        body: JSON.stringify(formData),
       });
 
-      const data = await res.json();
-      document.getElementById("form-status").innerText = data.message;
+      const result = await res.json();
 
-      if (res.ok) this.reset();
-    } catch (error) {
-      document.getElementById("form-status").innerText = "Submission failed. Please try again.";
+      responseBox.style.display = "block";
+      if (res.ok) {
+        responseBox.className = "success";
+        responseBox.innerText = result.message;
+        form.reset(); 
+      } else {
+        responseBox.className = "error";
+        responseBox.innerText = result.message;
+      }
+    } catch (err) {
+      console.error(err);
+      responseBox.style.display = "block";
+      responseBox.className = "error";
+      responseBox.innerText = "❌ Network error — check console";
     }
   });
-</script>
-<script>
-  const modal = document.getElementById("serviceModal");
-  const closeBtn = document.querySelector(".close-btn");
-  const modalTitle = document.getElementById("modal-title");
-  const modalDesc = document.getElementById("modal-desc");
-
-  document.querySelectorAll(".product-item").forEach(item => {
-    item.addEventListener("click", () => {
-      modal.style.display = "flex"; 
-      modalTitle.textContent = item.querySelector("span").textContent;
-      modalDesc.textContent = item.getAttribute("data-tooltip");
-    });
-  });
-
- 
-  closeBtn.addEventListener("click", () => modal.style.display = "none");
-  window.addEventListener("click", e => {
-    if (e.target === modal) modal.style.display = "none";
-  });
-</script>
-
-<script>
-const form = document.getElementById("contactForm");
-const responseBox = document.getElementById("response");
-
-form.addEventListener("submit", async (e) => {
-  e.preventDefault();
-
-  const formData = {
-    name: form.name.value,
-    email: form.email.value,
-    message: form.message.value
-  };
-
-  try {
-    const res = await fetch("/.netlify/functions/contact", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(formData)
-    });
-
-    const result = await res.json();
-
-    responseBox.style.display = "block";
-    responseBox.className = "success";
-    responseBox.innerText = result.message;
-
-    form.reset();
-  } catch (err) {
-    console.error(err);
-    responseBox.style.display = "block";
-    responseBox.className = "error";
-    responseBox.innerText = "❌ Oops! Something went wrong.";
-  }
 });
 </script>
   <script src="hero.js"></script>
