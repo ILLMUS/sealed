@@ -1,0 +1,235 @@
+/* General Section */
+.pricing-section {
+  background: #0a0a0a;
+  color: #fff;
+  padding: 80px 20px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Title + Subtitle */
+.pricing-title {
+  font-size: 2.5rem;
+  color: #00ffcc;
+  text-shadow: 0 0 20px #00ffcc;
+  margin-bottom: 10px;
+}
+.pricing-subtitle {
+  color: #aaa;
+  margin-bottom: 40px;
+  font-size: 1.2rem;
+}
+
+/* Pricing Cards */
+.pricing-container {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 30px;
+  margin-bottom: 60px;
+}
+.pricing-card {
+  background: rgba(20, 20, 20, 0.95);
+  border: 2px solid #00ffcc;
+  border-radius: 16px;
+  padding: 30px;
+  width: 300px;
+  box-shadow: 0 0 25px rgba(0, 255, 204, 0.3);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.pricing-card:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 0 40px rgba(0, 255, 204, 0.7);
+}
+.card-header {
+  margin-bottom: 20px;
+}
+.card-header .icon {
+  font-size: 2rem;
+  color: #00ffcc;
+  margin-bottom: 10px;
+}
+.plan-title {
+  font-size: 1.5rem;
+  margin: 0;
+  color: #fff;
+}
+.plan-for {
+  color: #bbb;
+  font-size: 0.9rem;
+  margin-bottom: 15px;
+}
+.plan-price {
+  font-size: 2rem;
+  color: #00ffcc;
+  text-shadow: 0 0 12px #00ffcc;
+  margin-bottom: 20px;
+}
+.plan-features {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 20px;
+}
+.plan-features li {
+  margin: 10px 0;
+  font-size: 0.95rem;
+  color: #ddd;
+}
+.plan-features i {
+  color: #00ffcc;
+  margin-right: 8px;
+}
+.plan-btn {
+  display: inline-block;
+  background: #00ffcc;
+  color: #0a0a0a;
+  padding: 12px 25px;
+  border-radius: 30px;
+  text-decoration: none;
+  font-weight: bold;
+  transition: all 0.3s ease;
+}
+.plan-btn:hover {
+  background: #0a0a0a;
+  color: #00ffcc;
+  border: 2px solid #00ffcc;
+}
+
+/* Highlighted Plan */
+.highlights {
+  position: relative;
+  border: 2px solid #00ffcc;
+  background: rgba(0, 255, 204, 0.05);
+}
+.highlights .badge {
+  position: absolute;
+  top: -10px;
+  right: -10px;
+  background: #00ffcc;
+  color: #0a0a0a;
+  font-size: 0.75rem;
+  font-weight: bold;
+  padding: 5px 10px;
+  border-radius: 20px;
+  text-transform: uppercase;
+}
+
+/* Comparison Table */
+.feature-comparison {
+  margin: 60px 0;
+}
+.comparison-table {
+  width: 100%;
+  max-width: 900px;
+  margin: auto;
+  border-collapse: collapse;
+}
+.comparison-table th,
+.comparison-table td {
+  border: 1px solid #333;
+  padding: 15px;
+  text-align: center;
+}
+.comparison-table th {
+  background: #111;
+  color: #00ffcc;
+}
+.comparison-table td {
+  color: #ddd;
+}
+
+/* Add-Ons */
+.addons ul {
+  list-style: none;
+  padding: 0;
+  margin: 20px auto;
+  max-width: 500px;
+}
+.addons li {
+  margin: 10px 0;
+  color: #ccc;
+  font-size: 1rem;
+}
+
+/* Guarantee */
+.guarantee {
+  margin: 40px 0;
+  font-size: 1.1rem;
+  color: #00ffcc;
+}
+
+/* FAQs */
+.faqs details {
+  margin: 15px auto;
+  max-width: 600px;
+  background: #111;
+  padding: 15px 20px;
+  border-radius: 10px;
+  border: 1px solid #222;
+}
+.faqs summary {
+  cursor: pointer;
+  font-weight: bold;
+  color: #00ffcc;
+}
+.faqs p {
+  margin-top: 10px;
+  color: #ccc;
+}
+
+/* Testimonials Slider */
+.testimonials {
+  margin: 60px 0;
+}
+.testimonial-slider {
+  position: relative;
+  max-width: 700px;
+  margin: auto;
+  overflow: hidden;
+}
+.testimonial {
+  display: none;
+  font-size: 1.1rem;
+  color: #eee;
+}
+.testimonial.active {
+  display: block;
+  animation: fadeIn 1s ease;
+}
+.testimonial h4 {
+  margin-top: 15px;
+  font-size: 1rem;
+  color: #00ffcc;
+}
+@keyframes fadeIn {
+  from {opacity: 0; transform: translateY(20px);}
+  to {opacity: 1; transform: translateY(0);}
+}
+
+/* Trusted By Logos */
+.trusted-by .logo-row {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 20px;
+  margin: 30px 0;
+}
+.trusted-by img {
+  height: 50px;
+  filter: grayscale(100%) brightness(0.8);
+  transition: filter 0.3s ease;
+}
+.trusted-by img:hover {
+  filter: none;
+}
+
+/* CTA Footer */
+.pricing-cta-footer {
+  margin-top: 60px;
+}
+.pricing-cta-footer h2 {
+  font-size: 2rem;
+  color: #00ffcc;
+  margin-bottom: 20px;
+}
